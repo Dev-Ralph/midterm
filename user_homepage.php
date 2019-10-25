@@ -1,4 +1,5 @@
  <?php
+session_start();
 require_once $_SERVER['DOCUMENT_ROOT'].'/midterm/resource/php/function/logout.php';
 $log = new logout;
 $log->logoutAccount();
@@ -22,6 +23,7 @@ $log->logoutAccount();
             <div class="collapse navbar-collapse " id="navbarNav">
               <ul class="navbar-nav ml-auto navbar-light">
                 <form action="" method="POST" class="form-inline my-2 my-lg-0">
+                  <li class="nav-item"><a class="nav-link text-danger mr-3 mt-sm-3" href="user_changepassword.php">Change Password</a></li>
                   <li class="nav-item"><button class="btn text-danger mr-3 mt-sm-3" name="logout" style="background-color:transparent">Log Out</button></li>
                 </form>
               </ul>
