@@ -6,13 +6,15 @@ class user_transaction extends config{
     public $author;
     public $datePublished;
     public $account_id;
+    public $username;
 
-public function __construct($book_id=null,$bookName=null,$author=null,$datePublished=null,$account_id=null){
+public function __construct($book_id=null,$bookName=null,$author=null,$datePublished=null,$account_id=null,$username=null){
     $this->book_id = $book_id;
     $this->bookName = $bookName;
     $this->author = $author;
     $this->datePublished = $datePublished;
     $this->account_id = $account_id;
+    $this->username = $username;
   }
 
 public function user_transaction(){
@@ -23,39 +25,40 @@ public function user_transaction(){
             $data= $pdo->prepare($sql);
             $data->execute([':id' => $book_id]);
             $result = $data->fetchAll();
-            $sql = "SELECT * FROM `book_tbl`";
+            $sql = "SELECT * FROM `book_tbl` WHERE `book_id` = '$id'";
             $data = $pdo->prepare($sql);
             $data->execute();
             $rows = $data->fetchAll();
             foreach ($rows as $row) {
+                  $bookName = $row->bookName;
+                  $author = $row->author;
+                  $datePublished = $row->datePublished;
                   $qty = $row->qty;
             }
+            $_SESSION['qty'] = $qty;
 
-            $sql = "SELECT * FROM `account`";
+            $account_id = $this->account_id;
+            $sql = "SELECT * FROM `account` WHERE `account_id` = $account_id";
             $data = $pdo->prepare($sql);
             $data->execute();
             $rows = $data->fetchAll();
-            $account_id = $this->account_id;
             foreach ($rows as $row) {
-                  $this->account_id = $account_id;
-                  $brw = $row->brw_status;
+                  $username = $row->username;
             }
+            if ($qty >0) {
+            $sql = "INSERT INTO `borrowed_tbl`(`bookName`, `username`, `author`, `date`) VALUES ('$bookName','$username','$author','$datePublished')";
+            $data = $pdo->prepare($sql);
+            $data->execute();
               $qty--;
-              $brw--;
               $sql = "UPDATE `book_tbl` SET `qty`= $qty WHERE `book_id` = $id";
-              $data = $pdo->prepare($sql);
-              $data->execute();
-              $sql = "UPDATE `account` SET `brw_status`= $brw WHERE `account_id` = $account_id";
               $data = $pdo->prepare($sql);
               $data->execute();
               if ($qty <= 0) {
                 $sql = "UPDATE `book_tbl` SET `qty`= 0 WHERE `book_id` = $id;";
                 $data = $pdo->prepare($sql);
                 $data->execute();
-                $sql = "UPDATE `account` SET `brw_status`= 0 WHERE `account_id` = $account_id";
-                $data = $pdo->prepare($sql);
-                $data->execute();
               }
+            }
           }
 
 public function user_transactionShow(){

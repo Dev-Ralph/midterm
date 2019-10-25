@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/midterm/resource/php/db/config.php';
-// error_reporting (E_ALL ^ E_NOTICE);
+error_reporting (E_ALL ^ E_NOTICE);
 class borrow extends config{
 public function borrowBook(){
   $config = new config;

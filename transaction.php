@@ -5,10 +5,11 @@ if(!empty($_GET['id'])){
   $_SESSION['id'] = $_GET['id'];
   $_SESSION['bookName'] = $_GET['bookName'];
   $_SESSION['datePublished'] = $_GET['datePublished'];
-  $_SESSION['account_id'] = $_GET['account_id'];
+  $_SESSION['account_id'] =$_GET['account_id'];
+  $_SESSION['username'] = $_GET['username'];
 }
 if(isset($_GET['borrow'])){
-$user_transaction = new user_transaction($_SESSION['id'],$_SESSION['bookName'],$_SESSION['author'],$_SESSION['datePublished'],$_SESSION['account_id']);
+$user_transaction = new user_transaction($_SESSION['id'],$_SESSION['bookName'],$_SESSION['author'],$_SESSION['datePublished'],$_SESSION['account_id'],$_SESSION['username']);
 $user_transaction->user_transaction();
 header("Location: user_homepage.php");
 }

@@ -1,12 +1,17 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/midterm/resource/php/db/config.php';
-class admin_view extends config{
-  public function viewAllData(){
+class viewDataBorrowed extends config{
+public function __construct($username=null, $book_id=null){
+              $this->username = $username;
+              $this->book_id = $book_id;
+            }
+
+public function viewAllData(){
               $config = new config;
               $pdo = $config->Connect();
               $limit = 10;
               $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-              $s = $pdo->prepare("SELECT * FROM `book_tbl`");
+              $s = $pdo->prepare("SELECT * FROM `borrowed_tbl`");
               $s->execute();
               $all = $s->fetchAll(PDO::FETCH_ASSOC);
               $total_results = $s->rowCount();
@@ -20,27 +25,39 @@ class admin_view extends config{
 
               $start = ($page-1)*$limit;
 
-              $sql = "SELECT * FROM `book_tbl` LIMIT $start, $limit";
+              $id = $this->book_id;
+              $sql = "SELECT * FROM `book_tbl` WHERE `book_id` = '$id'";
+              $data = $pdo->prepare($sql);
+              $data->execute();
+              $rows = $data->fetchAll();
+              foreach ($rows as $row) {
+                    $qty = $row->qty;
+              }
+              $qty++;
+              $sql = "UPDATE `book_tbl` SET `qty`= $qty WHERE `book_id` = $id";
+              $data = $pdo->prepare($sql);
+              $data->execute();
+
+
+              $username = $this->username;
+              $sql = "SELECT * FROM `borrowed_tbl` WHERE `username` = '$username' LIMIT $start, $limit";
               $data = $pdo->prepare($sql);
               $data->execute();
               $results = $data->fetchAll(PDO::FETCH_OBJ);
+
               echo '<div class="row float-right ">';
-              echo '<td><a class="btn btn-success text-white mr-3 mt-3" href="new.php">+ Add New Member</a></td> <td><a class="btn btn-success text-white mr-3 mt-3" href="newbook.php">+ Add New Book</a></td>';
-              echo "</div>'";
+              echo '</div>';
               echo '<table style="width:100%" class="table table-striped custab">';
               echo '<tr class="text-danger">';
-              echo '<th>Book Name</th><th>Author</th><th>Published Date</th><th>Available</th><th>Action</th>';
+              echo '<th>Username</th><th>Book Name</th><th>Author</th><th>Action</th>';
               echo '</tr>';
               foreach ($results as $result) {
               echo '<tr>';
+              echo '<td>'.$result->username.'</td>';
               echo '<td>'.$result->bookName.'</td>';
               echo '<td>'.$result->author.'</td>';
-              echo '<td>'.$result->datePublished.'</td>';
-              echo '<td>'.$result->qty.'</td>';
-              echo '<form method="GET" action="">';
-              echo  '<td><a class="btn btn-success" name="return" href="?returnid='.$result->book_id.'">+ Add New Stock</a></td>';
-              echo '</form>';
-              echo '</tr>';
+              echo '<td><a class="btn btn-success" href="?delete='.$result->borrowed_id.'">Return</a></td>';
+
               }
               echo '</table>';
 
@@ -53,5 +70,6 @@ class admin_view extends config{
               }
               echo '</ul>';
             }
+
         }
 ?>
