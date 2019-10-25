@@ -1,14 +1,13 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/midterm/resource/php/function/user_changepassword.php';
 session_start();
-if(!empty($_GET['account_id'])){
-  $_SESSION['account_id'] = $_GET['account_id'];
-}
-if(isset($_GET['save'])){
-$user_changepassword = new user_transaction($_SESSION['account_id'],$_GET['password']);
+require_once $_SERVER['DOCUMENT_ROOT'].'/midterm/resource/php/function/user_changepassword.php';
+ if(isset($_GET['save'])){
+$user_changepassword = new user_changepassword($_GET['password']);
 $user_changepassword->user_changepassword();
 header("Location: user_homepage.php");
-}?>
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +26,6 @@ header("Location: user_homepage.php");
             <button class="navbar-toggler bg-white" data-toggle="collapse" data-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
               <div class="collapse navbar-collapse " id="navbarNav">
                 <ul class="navbar-nav ml-auto navbar-light">
-                  <form action="" method="POST" class="form-inline my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link text-danger mr-3 mt-sm-3" href="user_homepage.php">Go back</a></li>
                 </ul>
               </div>
