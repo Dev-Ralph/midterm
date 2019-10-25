@@ -23,10 +23,14 @@ public function login(){
       $account_status2 = $row->account_status;
     }
     if ($username == $username2 && $password == $password2 && $account_status2 == "admin"){
+      $_SESSION['account_id'] = $account_id2;
     header('location: admin_homepage.php');
+    // session_start();
   }elseif ($username == $username2 && $password == $password2 && $account_status2 == "user") {
     $_SESSION['account_id'] = $account_id2;
     header('location: user_homepage.php');
+    // session_start();
+
   }else {
     $fail = "Failed to login!";
     echo "<script type='text/javascript'>alert('$fail')</script>";
