@@ -33,11 +33,6 @@ public function viewAllData(){
               foreach ($rows as $row) {
                     $qty = $row->qty;
               }
-              $qty++;
-              $sql = "UPDATE `book_tbl` SET `qty`= $qty WHERE `book_id` = $id";
-              $data = $pdo->prepare($sql);
-              $data->execute();
-
 
               $username = $this->username;
               $sql = "SELECT * FROM `borrowed_tbl` WHERE `username` = '$username' LIMIT $start, $limit";
@@ -49,16 +44,22 @@ public function viewAllData(){
               echo '</div>';
               echo '<table style="width:100%" class="table table-striped custab">';
               echo '<tr class="text-danger">';
-              echo '<th>Username</th><th>Book Name</th><th>Author</th><th>Action</th>';
+              echo '<th class="text-center">Username</th><th class="text-center">Book Name</th><th class="text-center">Author</th><th class="text-center">Action</th>';
               echo '</tr>';
               foreach ($results as $result) {
               echo '<tr>';
-              echo '<td>'.$result->username.'</td>';
-              echo '<td>'.$result->bookName.'</td>';
-              echo '<td>'.$result->author.'</td>';
-              echo '<td><a class="btn btn-success" href="?delete='.$result->borrowed_id.'">Return</a></td>';
+              echo '<td class="text-center">'.$result->username.'</td>';
+              echo '<td class="text-center">'.$result->bookName.'</td>';
+              echo '<td class="text-center">'.$result->author.'</td>';
+              echo '<td class="text-center"><a class="btn btn-success" href="?delete='.$result->borrowed_id.'">Return</a></td>';
 
               }
+              if (isset($_GET['id'])) {
+              $qty++;
+              $sql = "UPDATE `book_tbl` SET `qty`= $qty WHERE `book_id` = $id";
+              $data = $pdo->prepare($sql);
+              $data->execute();
+            }
               echo '</table>';
 
               echo '<ul>';

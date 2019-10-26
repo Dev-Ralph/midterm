@@ -38,6 +38,13 @@ public function returnBook(){
           $qty = $result->qty;
     }
     if(isset($_GET['returnid'])){
+      $sql = "SELECT * FROM `book_tbl` WHERE `book_id` = $returnid";
+      $data = $pdo->prepare($sql);
+      $data->execute();
+      $results = $data->fetchAll();
+      foreach ($results as $result) {
+            $qty = $result->qty;
+      }
       $qty++;
       $sql = "UPDATE `book_tbl` SET `qty`= $qty WHERE `book_id` = $returnid";
       $data = $pdo->prepare($sql);

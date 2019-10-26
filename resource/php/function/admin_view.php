@@ -29,16 +29,16 @@ class admin_view extends config{
               echo "</div>'";
               echo '<table style="width:100%" class="table table-striped custab">';
               echo '<tr class="text-danger">';
-              echo '<th>Book Name</th><th>Author</th><th>Published Date</th><th>Available</th><th>Action</th>';
+              echo '<th class="text-center">Book Name</th><th class="text-center">Author</th><th class="text-center">Published Date</th><th class="text-center">Available</th><th class="text-center">Action</th>';
               echo '</tr>';
               foreach ($results as $result) {
               echo '<tr>';
-              echo '<td>'.$result->bookName.'</td>';
-              echo '<td>'.$result->author.'</td>';
-              echo '<td>'.$result->datePublished.'</td>';
-              echo '<td>'.$result->qty.'</td>';
+              echo '<td class="text-center">'.$result->bookName.'</td>';
+              echo '<td class="text-center">'.$result->author.'</td>';
+              echo '<td class="text-center">'.$result->datePublished.'</td>';
+              echo '<td class="text-center">'.$result->qty.'</td>';
               echo '<form method="GET" action="">';
-              echo  '<td><a class="btn btn-success" name="return" href="?returnid='.$result->book_id.'">+ Add New Stock</a></td>';
+              echo  '<td class="text-center"><a class="btn btn-success" name="return" href="?returnid='.$result->book_id.'">+ Add New Stock</a></td>';
               echo '</form>';
               echo '</tr>';
               }

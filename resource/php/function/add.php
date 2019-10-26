@@ -18,7 +18,7 @@ public function add(){
     $password = $this->password;
     $password_again = $this->password_again;
     if ($password == $password_again) {
-      $sql = "INSERT INTO `account`(`username`, `password`, `account_status`, `brw_status`) VALUES (?,?,'user','2')";
+      $sql = "INSERT INTO `account`(`username`, `password`, `account_status`) VALUES (?,?,'user')";
       $data = $pdo->prepare($sql);
       $data->execute([$username,$password]);
     }else {

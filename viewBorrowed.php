@@ -25,7 +25,7 @@ header("Location: user_homepage.php");
            <div class="collapse navbar-collapse " id="navbarNav">
              <ul class="navbar-nav ml-auto navbar-light">
                <form action="" method="POST" class="form-inline my-2 my-lg-0">
-                 <li class="nav-item"><a class="btn text-danger mr-3 mt-sm-3" name="logout" style="background-color:transparent" href="user_homepage.php">Go back</a></li>
+
                </form>
              </ul>
            </div>

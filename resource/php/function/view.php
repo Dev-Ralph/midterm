@@ -1,5 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/midterm/resource/php/db/config.php';
+error_reporting (E_ALL ^ E_NOTICE);
 class view extends config{
         public $username;
         public $book_id;
@@ -30,7 +31,15 @@ class view extends config{
               $results = $data->fetchAll(PDO::FETCH_OBJ);
               foreach ($results as $result) {
                 $result->qty;
-                $result->book_id;
+              }
+              $id = $_SESSION['book_id'];
+              $sql = "SELECT * FROM `book_tbl` WHERE `book_id` = '$id'";
+              $data = $pdo->prepare($sql);
+              $data->execute();
+              $rows = $data->fetchAll();
+              foreach ($rows as $row) {
+                    $row->qty;
+                    $row->book_id;
               }
 
               $account_id = $_SESSION['account_id'];
@@ -44,19 +53,22 @@ class view extends config{
               }
 
               echo '<div class="row float-right ">';
-              echo '<td><a class="btn btn-success text-white mr-3 mt-3 mb-3" href="viewBorrowed.php?username='.$row->username.'&id='.$result->book_id.'">View Borrowed Books</a></td>';
+              if (isset($_SESSION['book_id'])) {
+                // code...
+              echo '<td><a class="btn btn-success text-white mr-3 mt-3 mb-3" href="viewBorrowed.php?username='.$row->username.'&id='.$id.'">Return Borrowed Books</a></td>';
+            }
               echo '</div>';
               echo '<table style="width:100%" class="table table-striped custab">';
               echo '<tr class="text-danger">';
-              echo '<th>Book Name</th><th>Author</th><th>Published Date</th><th>Available</th><th>Action</th>';
+              echo '<th class="text-center">Book Name</th><th class="text-center">Author</th><th class="text-center">Published Date</th><th class="text-center">Available</th><th class="text-center">Action</th>';
               echo '</tr>';
               foreach ($results as $result) {
               echo '<tr>';
-              echo '<td>'.$result->bookName.'</td>';
-              echo '<td>'.$result->author.'</td>';
-              echo '<td>'.$result->datePublished.'</td>';
-              echo '<td>'.$result->qty.'</td>';
-              echo  '<td> <a class="btn btn-success" href="transaction.php?id='.$result->book_id.'&bookName='.$result->bookName.'&author='.$result->author.'&datePublished='.$result->datePublished.'&account_id='.$row->account_id.'&username='.$row->username.'"">Transact</a></td>';
+              echo '<td class="text-center">'.$result->bookName.'</td>';
+              echo '<td class="text-center">'.$result->author.'</td>';
+              echo '<td class="text-center">'.$result->datePublished.'</td>';
+              echo '<td class="text-center">'.$result->qty.'</td>';
+              echo  '<td class="text-center"> <a class="btn btn-success" href="transaction.php?id='.$result->book_id.'&bookName='.$result->bookName.'&author='.$result->author.'&datePublished='.$result->datePublished.'&account_id='.$row->account_id.'&username='.$row->username.'"">Transact</a></td>';
               echo '</tr>';
               }
               echo '</table>';

@@ -1,5 +1,5 @@
  <?php
-session_start();
+// session_start();
 require_once $_SERVER['DOCUMENT_ROOT'].'/midterm/resource/php/function/logout.php';
 $log = new logout;
 $log->logoutAccount();
